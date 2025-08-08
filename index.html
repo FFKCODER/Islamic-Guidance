@@ -1,580 +1,233 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mood Care | Islamic Emotion Guide</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Amiri&display=swap" rel="stylesheet">
-
+  <title>Mood Care • Islamic Support</title>
   <style>
     :root {
-      --bg: #ffffff;
-      --card: #f9fafb;
-      --text: #1f2937;
-      --muted: #6b7280;
+      --happy: #ecfdf5;
+      --sad: #e0f2fe;
+      --anger: #fee2e2;
+      --depressed: #f1f5f9;
+      --jealous: #f0fdf4;
+
+      --text: #111827;
       --accent: #14b8a6;
-
-      /* Mood Themes */
-      --mood-happy-bg: #e0fce8;
-      --mood-sad-bg: #e0f2ff;
-      --mood-anger-bg: #fee2e2;
-      --mood-depressed-bg: #f1f5f9;
-      --mood-jealous-bg: #ecfdf5;
     }
-
     body {
       margin: 0;
-      font-family: 'Noto Sans', sans-serif;
-      background-color: var(--bg);
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff;
       color: var(--text);
-      transition: 0.4s ease background-color, color;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      transition: background 0.5s ease;
     }
-
-    .app {
-      max-width: 800px;
-      width: 100%;
-      background-color: var(--card);
+    .container {
+      max-width: 760px;
+      margin: auto;
       padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    h1, h2 {
       text-align: center;
     }
-
-    .mood-buttons, .subtype-buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 12px;
-      margin: 20px 0;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: .4rem;
     }
-
-    button.mood-btn {
-      padding: 14px;
-      font-weight: 600;
-      background-color: var(--accent);
-      color: white;
+    p {
+      opacity: .8;
+      margin: 0.5rem 0 1.2rem;
+    }
+    button {
+      padding: 12px 18px;
+      margin: 6px;
+      font-size: 1rem;
       border: none;
       border-radius: 10px;
+      background: var(--accent);
+      color: white;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: 0.2s;
     }
-
-    button.mood-btn:hover {
-      background-color: #0d9488;
+    button:hover {
+      background: #0f766e;
     }
-
-    .hidden {
-      display: none;
+    .hidden { display: none; }
+    .card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      text-align: left;
+      margin: 1.2rem 0;
     }
-
-    .dua, .guidance {
-      background-color: #f1f5f9;
-      border-left: 4px solid var(--accent);
-      padding: 16px 20px;
-      border-radius: 12px;
-      margin: 12px 0;
+    .card h2 { margin-top: 0.2rem; }
+    .dua-arabic {
+      font-size: 1.3rem;
+      text-align: right;
+      font-family: 'Amiri', serif;
+      line-height: 2;
     }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: var(--muted);
+    .ref {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 6px;
     }
-
-    .audio-control {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.6);
-      padding: 6px 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      user-select: none;
-    }
-
-    .audio-control:hover {
-      background: rgba(255, 255, 255, 0.9);
+    footer {
+      margin: 2rem 0 1rem;
+      font-size: 0.85rem;
+      color: #6b7280;
     }
   </style>
 </head>
-
 <body>
-  <div class="audio-control" id="audioToggle">🔊 Sound On</div>
-  <div class="app">
-    <h1>🤍 Mood Care: Islamic Guidance</h1>
-
-    <!-- Step 1: Mood Selection -->
-    <div class="step" id="step1">
-      <h2>How are you feeling now?</h2>
-      <div class="mood-buttons">
-        <button class="mood-btn" data-mood="happy">😊 Happy</button>
-        <button class="mood-btn" data-mood="sad">😔 Sad</button>
-        <button class="mood-btn" data-mood="anger">😡 Angry</button>
-        <button class="mood-btn" data-mood="depressed">😞 Depressed</button>
-        <button class="mood-btn" data-mood="jealous">😒 Jealous</button>
+  <div class="container" id="app">
+    <div id="welcome">
+      <h1>🤍 Mood Care</h1>
+      <p>This is a calm space rooted in the Qur’an & Sunnah. Let us know how your heart feels.</p>
+      <div>
+        <button onclick="start('happy')">😊 Happy</button>
+        <button onclick="start('sad')">😔 Sad</button>
+        <button onclick="start('anger')">😡 Angry</button>
+        <button onclick="start('depressed')">😞 Depressed</button>
+        <button onclick="start('jealous')">😒 Jealous</button>
       </div>
     </div>
 
-    <!-- Step 2 and beyond will be rendered dynamically -->
-    <div id="contentArea"></div>
+    <div id="step2" class="hidden"></div>
+    <div id="result" class="hidden"></div>
 
-    <div class="footer">Developed by Faisal Firoz Khan © 2025</div>
+    <footer>Developed by Faisal Firoz Khan • © All rights reserved</footer>
   </div>
 
-  <!-- 🎵 Base Sound Files (will switch with mood) -->
-  <audio id="bgAudio" loop autoplay muted>
-    <source id="audioSource" src="" type="audio/mp3" />
-  </audio>
-
   <script>
-    const app = document.querySelector('.app');
-    const contentArea = document.getElementById('contentArea');
-    const audioToggle = document.getElementById('audioToggle');
-    const bgAudio = document.getElementById('bgAudio');
-    const audioSource = document.getElementById('audioSource');
-
-    let currentMood = null;
-    let currentSubtype = null;
-    let soundOn = true;
-
-    // Mood base colors
-    const moodColors = {
-      happy: 'var(--mood-happy-bg)',
-      sad: 'var(--mood-sad-bg)',
-      anger: 'var(--mood-anger-bg)',
-      depressed: 'var(--mood-depressed-bg)',
-      jealous: 'var(--mood-jealous-bg)'
+    const colors = {
+      happy: "var(--happy)",
+      sad: "var(--sad)",
+      anger: "var(--anger)",
+      depressed: "var(--depressed)",
+      jealous: "var(--jealous)"
     };
 
-    // Mood-based calming background sounds (Royalty free examples)
-    // You can replace these URLs with your preferred audio files if you like.
-    const moodAudio = {
-      happy: 'https://cdn.pixabay.com/download/audio/2023/03/17/audio_457b9a9404.mp3?filename=happy-ukulele-14207.mp3',
-      sad: 'https://cdn.pixabay.com/download/audio/2021/10/27/audio_6c29071e48.mp3?filename=blue-piano-background-8717.mp3',
-      anger: 'https://cdn.pixabay.com/download/audio/2021/10/16/audio_81cf5c01fa.mp3?filename=motivational-rock-117078.mp3',
-      depressed: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_1cf84db8ac.mp3?filename=sad-piano-41729.mp3',
-      jealous: 'https://cdn.pixabay.com/download/audio/2023/04/10/audio_0e5345ab11.mp3?filename=zen-soundscape-15044.mp3'
-    };
-
-    // Follow-up questions per mood
-    const moodFollowups = {
+    const data = {
       happy: {
-        title: "What’s fueling the happiness?",
-        subtitle: "Gratitude anchors joy.",
-        options: ["Gratitude", "Achievement", "Family time", "Answered prayer"]
+        msg: "Let joy lead to gratitude and generosity.",
+        quran: "“If you are grateful, I will surely increase you.” (Qur’an 14:7)",
+        hadith: "“Supplication is worship, and gratitude protects blessings.”",
+        dua: {
+          ar: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ ... فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
+          en: "O Allah, whatever blessing I woke to is from You alone...",
+          tr: "Allahumma ma asbaha bi min ni‘matin ...",
+          ref: "[20] Authentic reports of gratitude"
+        },
+        tips: "Say Alhamdulillah. Share joy with sadaqah or kind words."
       },
       sad: {
-        title: "What kind of sadness is it?",
-        subtitle: "Naming it helps compassionately address it.",
-        options: ["Loss/Bereavement", "Loneliness", "Disappointment", "General sadness"]
+        msg: "Sadness is part of our journey. Patience draws Allah's mercy.",
+        quran: "“Do not grieve; indeed, Allah is with the patient.” (Qur’an 9:40)",
+        hadith: "“No sadness affects a believer except that Allah removes sins.” (Bukhari)",
+        dua: {
+          ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الهَمِّ وَالحَزَنِ...",
+          en: "O Allah, I seek refuge from worry and grief...",
+          tr: "Allahumma inni a‘udhu bika minal-hammi wal-ḥazan...",
+          ref: "[5] Tirmidhi 3484 • [8] Yaqeen - Anxiety Series"
+        },
+        tips: "Keep dhikr on your tongue. Talk to Allah — He listens."
       },
       anger: {
-        title: "What triggered the anger?",
-        subtitle: "Awareness helps channel it righteously.",
-        options: ["Injustice", "Arguments", "Stress/Overload", "Traffic/Minor triggers"]
+        msg: "Anger is natural — controlling it is strength in Islam.",
+        quran: "“Seek refuge with Allah if the devil tempts you.” (Qur’an 7:200)",
+        hadith: "“When angry, sit if standing, and be silent.” (Adab al-Mufrad)",
+        dua: {
+          ar: "اللَّهُمَّ اغْفِرْ لِي وَأَذْهِبْ غَيْظَ قَلْبِي...",
+          en: "O Allah, remove the rage from my heart...",
+          tr: "Allahummaghfir li dhanbi, wa adhhib ghaydha qalbi...",
+          ref: "[7] Qur’an & Sunnah on anger"
+        },
+        tips: "Pause. Say 'A‘udhu billah'. Perform wudu if needed."
       },
       depressed: {
-        title: "What feels hardest right now?",
-        subtitle: "Gentle steps forward are still steps.",
-        options: ["Persistent low mood", "Hopeless thoughts", "Fatigue/No motivation", "Anxiety + sadness"]
+        msg: "The heaviness is real. The Qur’an is a light through the darkness.",
+        quran: "“…The Qur’an as light for the chest, remover of sadness.” (Hisn al-Muslim)",
+        hadith: "“Make Qur’an the spring of my heart and the expeller of sorrow.”",
+        dua: {
+          ar: "اللَّهُمَّ اجْعَلِ القُرْآنَ رَبِيعَ قَلْبِي...",
+          en: "O Allah, make the Qur’an the spring of my heart...",
+          tr: "Allahumma-nur sadri... wa jala’a huzni...",
+          ref: "[3] Ibn Hibban 972 • [4] Hisn al-Muslim"
+        },
+        tips: "Know the Prophet ﷺ also wept. You are not alone. Qur’an brings relief."
       },
       jealous: {
-        title: "What kind of jealousy?",
-        subtitle: "Transform comparison into growth.",
-        options: ["Others’ success", "Relationships", "Wealth/Status", "Social media"]
+        msg: "Islam teaches us to cleanse the heart and strive for contentment.",
+        quran: "“If you're grateful, I will give you more.” (Qur’an 14:7)",
+        hadith: "“Make du‘ā for those you envy. It softens your heart.”",
+        dua: {
+          ar: "اللَّهُمَّ طَهِّرْ قَلْبِي مِنْ كُلِّ حَسَدٍ...",
+          en: "O Allah, purify my heart from envy and malice...",
+          tr: "Allahumma tahhir qalbi min hasad...",
+          ref: "[10] Authentic collections"
+        },
+        tips: "Thank Allah for what you have. Pray for others to grow."
       }
     };
 
-    // Authentic content data with references
-    const content = {
-      happy: {
-        calm: "Alhamdulillah. Let joy lead to gratitude and sharing goodness.",
-        quran: [
-          { text: "If you are grateful, I will surely increase you. (Qur’an 14:7)", refs: [12] }
-        ],
-        hadith: [
-          { text: "Supplication is worship, and gratitude preserves blessings.", refs: [20] }
-        ],
-        dua: {
-          arabic: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
-          translit: "Allahumma ma asbaha bi min ni‘matin aw bi ahadin min khalqika fa minka wahdaka la sharika lak, falaka al-ḥamdu wa laka ash-shukr.",
-          translation: "O Allah, whatever blessing I or any of Your creation has risen upon is from You alone, without partner. To You is all praise and thanks.",
-          refs: [20]
-        },
-        tips: [
-          { text: "Say Alhamdulillah often; share joy with sadaqah.", refs: [20] }
-        ]
-      },
-      sad: {
-        calm: "Sadness is seen and honored in the Qur’an and Sunnah; turning to Allah brings relief and meaning.",
-        quran: [
-          { text: "So do not weaken and do not grieve; you will be superior if you are believers. (Qur’an 3:139)", refs: [12] }
-        ],
-        hadith: [
-          { text: "No fatigue, disease, sorrow, sadness, hurt, or distress befalls a Muslim—even a thorn—except that Allah expiates sins thereby.", refs: [2] }
-        ],
-        dua: {
-          arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الهَمِّ وَالحَزَنِ، وَأَعُوذُ بِكَ مِنَ العَجْزِ وَالكَسَلِ، وَأَعُوذُ بِكَ مِنَ الجُبْنِ وَالبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ.",
-          translit: "Allahumma inni a‘udhu bika minal-hammi wal-ḥazan, wa a‘udhu bika minal-‘ajzi wal-kasal, wa a‘udhu bika minal-jubni wal-bukhl, wa a‘udhu bika min ghalabatid-dayni wa qahrir-rijal.",
-          translation: "O Allah, I seek refuge in You from anxiety and grief, from inability and laziness, from cowardice and miserliness, and from being overcome by debt and overpowered by men.",
-          refs: [8,5]
-        },
-        tips: [
-          { text: "Recite: O Allah, there is no ease except what You make easy…", refs: [8] },
-          { text: "Reflect on the Qur’an as the remover of sadness.", refs: [3,4] }
-        ]
-      },
-      anger: {
-        calm: "Pause, breathe, and seek refuge in Allah; restraint is strength.",
-        quran: [
-          { text: "If you are tempted by Satan, seek refuge with Allah. (Qur’an 7:200)", refs: [7] }
-        ],
-        hadith: [
-          { text: "When one is angry, remaining silent helps.", refs: [13] },
-          { text: "Say: I seek refuge with Allah from the accursed devil.", refs: [7] }
-        ],
-        dua: {
-          arabic: "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي، وَأَذْهِبْ غَيْظَ قَلْبِي، وَأَعِذْنِي مِنْ مُضِلَّاتِ الْفِتَنِ مَا أَحْيَيْتَنَا.",
-          translit: "Allahummaghfir li dhanbi, wa adhhib ghaydha qalbi, wa a‘idhni min muḍillatil-fitan ma aḥyaitanā.",
-          translation: "O Allah, forgive my sin, remove the anger from my heart, and protect me from misleading trials as long as You give us life.",
-          refs: [7,10]
-        },
-        tips: [
-          { text: "Change posture and perform wudu per Sunnah guidance on anger management.", refs: [7,19] }
-        ]
-      },
-      depressed: {
-        calm: "The Qur’an acknowledges deep worry and grief; turning the heart to Allah’s words brings light and relief.",
-        quran: [
-          { text: "Let the Qur’an be the light of the chest and the remover of grief—a prophetic supplication.", refs: [3,4] }
-        ],
-        hadith: [
-          { text: "The Prophet taught a dua making the Qur’an the spring of the heart and the banisher of depression and anxiety.", refs: [3,4] }
-        ],
-        dua: {
-          arabic: "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ... أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجَلَاءَ حُزْنِي، وَذَهَابَ هَمِّي.",
-          translit: "Allahumma inni ‘abduka, ibnu ‘abdika, ibnu amatika… an taj‘ala al-Qur’āna rabi‘a qalbi, wa nūra ṣadri, wa jalā’a ḥuzni, wa dhahāba hammi.",
-          translation: "O Allah, I am Your servant… I ask You to make the Qur’an the spring of my heart, the light of my chest, the remover of my sadness, and the expeller of my anxiety.",
-          refs: [3,4]
-        },
-        tips: [
-          { text: "When distressed, say: La ilaha illa Allah al-‘Azim al-Halim… Lord of the Throne.", refs: [11] },
-          { text: "Persist with the anxiety/grief dua seeking refuge from future worry and past grief.", refs: [8] }
-        ]
-      },
-      jealous: {
-        calm: "Turn comparison into duʿā and effort; Allah’s favor is vast, and gratitude increases blessings.",
-        quran: [
-          { text: "If you are grateful, I will surely increase you. (Qur’an 14:7)", refs: [12] }
-        ],
-        hadith: [
-          { text: "Supplicate and purify the heart from rancor and envy.", refs: [10,20] }
-        ],
-        dua: {
-          arabic: "اللَّهُمَّ طَهِّرْ قَلْبِي مِنْ كُلِّ غِلٍّ وَحِقْدٍ وَحَسَدٍ.",
-          translit: "Allahumma ṭahhir qalbi min kulli ghillin wa ḥiqdin wa ḥasad.",
-          translation: "O Allah, purify my heart from every rancor, malice, and envy.",
-          refs: [10]
-        },
-        tips: [
-          { text: "Make duʿā for the person envied; give thanks for one’s own blessings.", refs: [10,12] }
-        ]
-      }
-    };
+    let selectedMood = "";
 
-    // Reference map to display below content
-    const refMap = {
-      2: "Sahih al-Bukhari 5641-5642 (Sunnah.com).",
-      3: "Sahih Ibn Hibban 972: Dua making Qur’an the spring of the heart (DailyHadithOnline).",
-      4: "Hisn al-Muslim 120; graded authentic by Al-Albani (Sunnah.com).",
-      5: "Jami‘ at-Tirmidhi 3484 note via Muslim & Quran: seeking refuge from grief and sorrow.",
-      7: "Anger management: Qur’an 7:200; narrations on seeking refuge (Yaqeen Institute).",
-      8: "Du‘as to relieve stress and anxiety; includes ‘Allahumma inni a‘udhu bika…’ (Yaqeen Institute).",
-      10: "Islamic Relief Canada: du‘as including to extinguish anger and purify the heart.",
-      11: "IslamQA: Distress du‘as from Sahihayn and authentic reports.",
-      12: "MyIslam: Qur’anic verses compilation (e.g., 3:139; 14:7) on overcoming sadness.",
-      13: "Adab al-Mufrad/Adab: ‘When angry, be silent.’ (Sunnah.com).",
-      19: "DailyHadithOnline: Virtue of suppressing rage.",
-      20: "General gratitude and dua references."
-    };
+    function start(mood) {
+      selectedMood = mood;
+      document.getElementById("welcome").classList.add("hidden");
+      document.body.style.background = colors[mood];
 
-    // Helper to generate reference badges
-    function refBadges(refs) {
-      return refs.map(id =>
-        `<small title="${refMap[id] || ''}" style="color: #666; font-size: 0.75rem; margin-left: 6px;">[${id}]</small>`
-      ).join('');
-    }
+      const moodQuestion = {
+        happy: "What’s behind your happiness today?",
+        sad: "What kind of sadness are you experiencing?",
+        anger: "What triggered your anger?",
+        depressed: "What’s weighing you down?",
+        jealous: "What triggered your comparison feeling?"
+      };
 
-    // Clear content area
-    function clearContent() {
-      contentArea.innerHTML = '';
-    }
+      const options = {
+        happy: ["Answered prayer", "Good news", "Family love", "Success"],
+        sad: ["Loss", "Loneliness", "Failure", "Uncertainty"],
+        anger: ["Injustice", "Personal insult", "Overload", "Triggers"],
+        depressed: ["Hopelessness", "Empty routine", "Stress burn out", "Guilt"],
+        jealous: ["Wealth/envy", "Relationships", "Fame/attention", "Beauty"]
+      };
 
-    // Update background color per mood
-    function updateBackgroundColor(mood) {
-      document.body.style.backgroundColor = moodColors[mood] || 'var(--bg)';
-    }
+      const step2 = document.getElementById("step2");
+      step2.className = "card";
+      step2.innerHTML = `<h2>${moodQuestion[mood]}</h2>`;
 
-    // Switch audio source based on mood
-    function switchAudio(mood) {
-      if (!soundOn) {
-        bgAudio.pause();
-        return;
-      }
-      const src = moodAudio[mood];
-      if (src) {
-        if (audioSource.src !== src) {
-          audioSource.src = src;
-          bgAudio.load();
-          bgAudio.play();
-        }
-      } else {
-        bgAudio.pause();
-      }
-    }
-
-    // Render follow-up subtype questions
-    function renderFollowup(mood) {
-      clearContent();
-
-      const followup = moodFollowups[mood];
-      if (!followup) return;
-
-      const container = document.createElement('div');
-
-      const title = document.createElement('h2');
-      title.textContent = followup.title;
-      container.appendChild(title);
-
-      const subtitle = document.createElement('p');
-      subtitle.style.textAlign = 'center';
-      subtitle.style.color = 'var(--muted)';
-      subtitle.style.marginTop = '-10px';
-      subtitle.style.marginBottom = '12px';
-      subtitle.textContent = followup.subtitle;
-      container.appendChild(subtitle);
-
-      const buttonsDiv = document.createElement('div');
-      buttonsDiv.className = 'subtype-buttons';
-
-      followup.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'mood-btn';
+      options[mood].forEach(opt => {
+        const btn = document.createElement("button");
         btn.textContent = opt;
-
-        btn.addEventListener('click', () => {
-          currentSubtype = opt;
-          // Mark selected button
-          buttonsDiv.querySelectorAll('button').forEach(b => b.style.backgroundColor = 'var(--accent)');
-          btn.style.backgroundColor = '#0d9488';
-
-          renderGuidance(mood, opt);
-        });
-
-        buttonsDiv.appendChild(btn);
+        btn.onclick = () => showGuidance(mood, opt);
+        step2.appendChild(btn);
       });
-
-      container.appendChild(buttonsDiv);
-
-      // Back button
-      const backBtn = document.createElement('button');
-      backBtn.textContent = '◀ Back';
-      backBtn.style.marginTop = '20px';
-      backBtn.style.padding = '12px 20px';
-      backBtn.style.border = 'none';
-      backBtn.style.backgroundColor = '#ddd';
-      backBtn.style.color = '#444';
-      backBtn.style.fontWeight = 'bold';
-      backBtn.style.borderRadius = '10px';
-      backBtn.style.cursor = 'pointer';
-      backBtn.addEventListener('click', () => {
-        clearContent();
-        renderMoodSelection();
-        currentMood = null;
-        currentSubtype = null;
-        updateBackgroundColor(null);
-        switchAudio(null);
-      });
-
-      container.appendChild(backBtn);
-
-      contentArea.appendChild(container);
+      step2.classList.remove("hidden");
     }
 
-    // Render the guidance section with dua, Quran, hadith, tips
-    function renderGuidance(mood, subtype) {
-      clearContent();
+    function showGuidance(mood, sub) {
+      document.getElementById("step2").classList.add("hidden");
+      const res = document.getElementById("result");
+      const d = data[mood];
 
-      currentMood = mood;
-      currentSubtype = subtype;
-
-      updateBackgroundColor(mood);
-      switchAudio(mood);
-
-      const data = content[mood];
-      if (!data) return;
-
-      const container = document.createElement('div');
-
-      // Section Title
-      const title = document.createElement('h2');
-      switch (mood) {
-        case 'happy': title.textContent = "Grounding Joy with Gratitude"; break;
-        case 'sad': title.textContent = "Consolation for Sadness"; break;
-        case 'anger': title.textContent = "Cooling the Flames of Anger"; break;
-        case 'depressed': title.textContent = "Light for Heavy Hearts"; break;
-        case 'jealous': title.textContent = "Purifying the Heart from Envy"; break;
-        default: title.textContent = "Personalized Guidance";
-      }
-      container.appendChild(title);
-
-      // Calming message
-      const calmDiv = document.createElement('div');
-      calmDiv.className = 'dua';
-      calmDiv.innerHTML = `<strong>Calming message:</strong> ${data.calm} <br/><em>Context:</em> <span style="color: var(--accent);">${subtype}</span>`;
-      container.appendChild(calmDiv);
-
-      // Quran Verses & Hadith
-      const guidanceDiv = document.createElement('div');
-      guidanceDiv.className = 'guidance';
-
-      // Quran
-      data.quran.forEach(q => {
-        const p = document.createElement('p');
-        p.textContent = q.text;
-        p.innerHTML += refBadges(q.refs);
-        p.style.fontStyle = 'italic';
-        guidanceDiv.appendChild(p);
-      });
-
-      // Hadith
-      data.hadith.forEach(h => {
-        const p = document.createElement('p');
-        p.textContent = h.text;
-        p.innerHTML += refBadges(h.refs);
-        guidanceDiv.appendChild(p);
-      });
-
-      container.appendChild(guidanceDiv);
-
-      // Dua Section
-      const duaDiv = document.createElement('div');
-      duaDiv.className = 'dua';
-
-      duaDiv.innerHTML = `
-        <p style="font-size:1.3rem; font-family: 'Amiri', serif; direction: rtl; text-align: right;">${data.dua.arabic}</p>
-        <p><strong>Transliteration:</strong> ${data.dua.translit}</p>
-        <p><strong>Meaning:</strong> ${data.dua.translation}</p>
-        <p><strong>References:</strong> ${refBadges(data.dua.refs)}</p>
+      res.className = "card";
+      res.innerHTML = `
+        <h2>Guidance for "${sub}" (${mood})</h2>
+        <p><strong>🕊 Message:</strong> ${d.msg}</p>
+        <p><strong>📖 Qur’an:</strong> <em>${d.quran}</em></p>
+        <p><strong>🗣 Hadith:</strong> ${d.hadith}</p>
+        <p><strong>🤲 Du‘ā:</strong></p>
+        <div class="dua-arabic">${d.dua.ar}</div>
+        <p><strong>Transliteration:</strong> ${d.dua.tr}</p>
+        <p><strong>Meaning:</strong> ${d.dua.en}</p>
+        <div class="ref">${d.dua.ref}</div>
+        <p><strong>💡 Practical Tip:</strong> ${d.tips}</p>
+        <br />
+        <button onclick="location.reload()">🔁 Start Again</button>
       `;
-
-      container.appendChild(duaDiv);
-
-      // Helpful practices / tips
-      const tipsDiv = document.createElement('div');
-      tipsDiv.className = 'guidance';
-
-      if (data.tips && data.tips.length > 0) {
-        data.tips.forEach(tip => {
-          const p = document.createElement('p');
-          p.textContent = "• " + tip.text;
-          p.innerHTML += refBadges(tip.refs);
-          tipsDiv.appendChild(p);
-        });
-        container.appendChild(tipsDiv);
-      }
-
-      // Restart button
-      const restartBtn = document.createElement('button');
-      restartBtn.textContent = '↺ Start Over';
-      restartBtn.style.marginTop = '30px';
-      restartBtn.style.padding = '12px 24px';
-      restartBtn.style.border = 'none';
-      restartBtn.style.backgroundColor = 'var(--accent)';
-      restartBtn.style.color = '#fff';
-      restartBtn.style.fontWeight = 'bold';
-      restartBtn.style.borderRadius = '12px';
-      restartBtn.style.cursor = 'pointer';
-
-      restartBtn.addEventListener('click', () => {
-        clearContent();
-        renderMoodSelection();
-        currentMood = null;
-        currentSubtype = null;
-        updateBackgroundColor(null);
-        switchAudio(null);
-      });
-
-      container.appendChild(restartBtn);
-
-      contentArea.appendChild(container);
+      res.classList.remove("hidden");
     }
-
-    // Render mood selection UI (Step 1)
-    function renderMoodSelection() {
-      clearContent();
-
-      // Rebuild Step 1 content to allow picking mood again
-      const step1 = document.createElement('div');
-      step1.id = 'step1';
-
-      const h2 = document.createElement('h2');
-      h2.textContent = 'How are you feeling now?';
-      step1.appendChild(h2);
-
-      const moodButtonsDiv = document.createElement('div');
-      moodButtonsDiv.className = 'mood-buttons';
-
-      ['happy', 'sad', 'anger', 'depressed', 'jealous'].forEach(mood => {
-        const btn = document.createElement('button');
-        btn.className = 'mood-btn';
-        btn.textContent = mood.charAt(0).toUpperCase() + mood.slice(1);
-        btn.dataset.mood = mood;
-
-        btn.addEventListener('click', () => {
-          currentMood = mood;
-          renderFollowup(mood);
-          updateBackgroundColor(mood);
-          switchAudio(mood);
-        });
-
-        moodButtonsDiv.appendChild(btn);
-      });
-
-      step1.appendChild(moodButtonsDiv);
-      contentArea.appendChild(step1);
-
-      // Reset page theme color and stop audio initially
-      updateBackgroundColor(null);
-      switchAudio(null);
-    }
-
-    // Toggle background audio mute/unmute
-    audioToggle.addEventListener('click', () => {
-      soundOn = !soundOn;
-      if (soundOn) {
-        audioToggle.textContent = '🔊 Sound On';
-        if(currentMood) switchAudio(currentMood);
-        else bgAudio.pause();
-      } else {
-        audioToggle.textContent = '🔈 Sound Off';
-        bgAudio.pause();
-      }
-    });
-
-    // Initialize page by rendering mood selection
-    renderMoodSelection();
   </script>
 </body>
 </html>
